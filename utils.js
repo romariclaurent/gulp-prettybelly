@@ -6,8 +6,8 @@ var async = require("async");
 
 
 const METADATA_EXTENSIONS = {
-	template: ".m",
-	asset: ".m"
+	template: ".md.json",
+	asset: ".md.json"
 }
 
 const CONTENT_TYPES = {
@@ -15,12 +15,18 @@ const CONTENT_TYPES = {
 	".xml": "application/xml"
 }
 
+function extname(filepath){ 
+	var filename = path.basename(filepath);
+	// cant use path.extname cause it does not support double extensions ex: .md.json
+	return filename.substr(filename.indexOf("."), filename.length);
+}
+
 function extensionsForTypes(types){
 	return types.map(function(type){ return METADATA_EXTENSIONS[type]; })
 }
 
 function isFileForTypes(file, types){
-	return _.contains(extensionsForTypes(types), path.extname(file));		
+	return _.contains(extensionsForTypes(types), extname(file));		
 }
 
 function hasMetadataForFile(file, metadata, base){
@@ -63,15 +69,16 @@ function createTemplateMetadata(file, base, project){
 	var id = getUID(10);
 	var content = {
 		id: id,
+		jsonApiVersion:1,
 		type: "template",
-		defaultRef: path.basename(file, path.extname(file)),
+		defaultRef: path.basename(file, extname(file)),
 		active: true,		
 		created: new Date().toISOString(),
 		ownedBy: project,
 		lastModified: new Date().toISOString(),
 		acl: { sharedHosts: [] },
 		tags: [],
-		contentType: CONTENT_TYPES[path.extname(file)],
+		contentType: CONTENT_TYPES[extname(file)],
 		path: path.relative(base + "/assets", file),
 	};
 
@@ -89,6 +96,7 @@ function getPathFromId(id, type){
 
 module.exports = {
 	isFileForTypes: isFileForTypes,
+	extname: extname,
 	hasMetadataForFile: hasMetadataForFile,
 	hasFileForMetadata: hasFileForMetadata,
 	isIgnoredAsset: isIgnoredAsset,

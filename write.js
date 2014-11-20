@@ -44,7 +44,7 @@ function deleteMetadataFiles(metadata, cb){
 
 	// execute all tasks 
 	tasks.length && gutil.log("Deleting " + tasks.length + " metadata files");
-	async.parallel(tasks, cb);
+	async.series(tasks, cb);
 
 }
 
@@ -65,7 +65,7 @@ function saveMetadataFiles(metadata, cb){
 						
 					gutil.log("Creating metadata file " + item.path + " for asset:" + utils.getPathToFile(item));
 					
-					fs.writeFile(item.path, JSON.stringify(item.content), cb); 
+					fs.writeFile(item.path, JSON.stringify(item.content, undefined, 2), cb); 
 				
 				});
 			}  
@@ -76,7 +76,7 @@ function saveMetadataFiles(metadata, cb){
 
 	// execute all tasks
 	tasks.length && gutil.log("Creating " + tasks.length + " metadata files");	
-	async.parallel(tasks, cb);
+	async.series(tasks, cb);
 }
 
 function removeEmptyDirectories(metadata, cb){

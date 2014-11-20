@@ -20,7 +20,7 @@ function synctemplates(options) {
 		
 		recursive(metadata.base + "/" + options.path, function(err, files){
 				
-			var templates = files.filter(function(file){ return [".html", ".xml" ].indexOf(path.extname(file)) != -1  });
+			var templates = files.filter(function(file){ return [".html", ".xml" ].indexOf(utils.extname(file)) != -1  });
 			
 			// build new metadata for new files
 			_.chain(templates)

@@ -52,7 +52,7 @@ function load(options) {
 				});
 
 			// execute all tasks in parralel
-			async.parallel(tasks, function(err, results){
+			async.series(tasks, function(err, results){
 				if (err) return cb(err);
 				metadata.files = results;
 				cb(null, metadata);
