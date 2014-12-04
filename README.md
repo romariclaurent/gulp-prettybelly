@@ -25,7 +25,7 @@ Getting Started
 	});	
 
 	
-	// plugin with gulp wath to trigger taks when html file changes
+	// plugin with gulp watch to trigger taks when html file changes
 	gulp.task('default', ['pb-template'], function () {
 	    gulp.watch("src/**/*.html", ['pb-template']);
 	});

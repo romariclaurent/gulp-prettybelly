@@ -22,8 +22,8 @@ function load(options) {
 	};
 
 	function addFile(storeDir, encoding, cb){
-
-		metadata.base = path.relative("." , storeDir.path)
+		metadata.base = storeDir.path; //path.relative("." , storeDir.path)
+		
 
 		recursive(metadata.base + "/content" , ["node_modules", ".git"], function(err, files){
 			if (err) return cb(err);
